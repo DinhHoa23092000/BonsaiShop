@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ban hang </title>
+    <link rel="stylesheet" type="text/css" href="bonsai.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="icon" type="img/png  " href="https://media.istockphoto.com/photos/banana-isolated-on-white-background-top-view-picture-id903034374?k=6&m=903034374&s=612x612&w=0&h=i6ISIiDz_yZBuoSbON2C-TGHQ0gLSdmFJMAeH6JI114=">
+
+</head>
+
+<body>
+    <div class="home_blog">
+
+        <div class="head-center">
+            <span class="logo">
+                <img src="Pic_pro/logo.png">
+            </span>
+            <span class="icon">
+                        <button class="cart"><i class="fas fa-shopping-bag" onclick="Cart()"></i>&emsp;Giỏ hàng (0)</button>
+                    </span>
+            </span>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="">Giới thiệu</a></li>
+                <li><a href="">Sản phẩm</a></li>
+                <li><a href="">Tin tức</a></li>
+                <li><a href="">Liên hệ</a></li>
+                <div class="search"><input id="search1" class="search-text" type="text" placeholder="&emsp;Tìm kiếm" name=""><i id="search" onclick="search()" class="fas fa-search"></i></div>
+            </ul>
+        </div>
+
+        <div class="bonsai" id="page">
+            <div class="part-2">
+                <div class="head-2">
+                    <input class="btn" type="button" name="" value="BONSAI">
+                </div>
+            </div>
+
+            <div class="grid-container" id="container"></div>
+
+        </div>
+
+        <div id="cart">
+            <div class="cart-big">
+                <p class="name-cart">Giỏ hàng</p>
+                <button onclick="back()" class="back">
+                    << Tiep tuc mua hang</button>
+            </div>
+            <div id="my_cart" class="cartddd"></div>
+            <div class="pay-money">
+                <p class="plus-cart">Cộng giỏ hàng</p>
+                <table class="table-2">
+                    <tr>
+                        <td class="text-3">Tạm tính:</td>
+                        <td><span id="result"></span>đ</td>
+                    </tr>
+                    <tr>
+                        <td class="text-3">Phi giao hang:</td>
+                        <td><span id="result2"></span>đ</td>
+                    </tr>
+                    <tr>
+                        <td class="text-3">Tổng:</td>
+                        <td class="text-3"><span id="result3"></span>đ</td>
+                    </tr>
+                </table>
+                <button class="btn-pay"><a href="datmua.html" title="">Tiến hành thanh toán</a></button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        document.getElementById("cart").style.display = 'none';
+        document.getElementById("my_cart").style.display = 'none';
+
+        var product1 = {
+            img: "Pic_pro/Bonsai/Bonsai baum.png",
+            name: "Bonsai Baum",
+            price: 20000000
+        }
+        var product2 = {
+            img: "Pic_pro/Bonsai/Bonsai cây me.jpg",
+            name: "Bonsai Cay Me",
+            price: 35000000
+        }
+        var product3 = {
+            img: "Pic_pro/Bonsai/Bonsai Hoa Giấy.jpg",
+            name: "Bonsai Hoa Giấy",
+            price: 28000000
+        }
+        var product4 = {
+            img: "Pic_pro/Bonsai/Bonsai Mini.jpg",
+            name: "Bonsai Mini",
+            price: 48000000
+        }
+
+        var cart = [];
+        var quantity = [];
+        var product = [product1, product2, product3, product4];
+
+        function SumAndCount() {
+            var sum = 0;
+            var count = 0;
+            for (var k = 0; k < cart.length; k++) {
+                count++;
+                sum += cart[k].price;
+            }
+            document.getElementById("result").innerHTML = sum;
+            document.getElementById("result2").innerHTML = sum * 0.1;
+            document.getElementById("result3").innerHTML = sum + (sum * 0.1);
+        }
+
+
+        displayProduct();
+        displayCart();
+
+        function displayProduct() {
+            var container = document.getElementById("container");
+            for (var i = 0; i < product.length; i++) {
+                var div1 = document.createElement("div");
+                div1.className = "grid-item";
+
+                var Pimg = document.createElement("img");
+                Pimg.src = product[i].img;
+                div1.appendChild(Pimg);
+                Pimg.className = "img-sp";
+
+                var Pname = document.createElement("p");
+                Pname.innerText = product[i].name;
+                div1.appendChild(Pname);
+
+                var Pprice = document.createElement("p");
+                Pprice.innerText = product[i].price;
+                div1.appendChild(Pprice);
+
+                var PbtDetail = document.createElement("button");
+                PbtDetail.innerText = "Chi tiết";
+                PbtDetail.className = "btn-1";
+
+                div1.appendChild(PbtDetail);
+
+                var PbtAdd = document.createElement("button");
+                PbtAdd.innerText = "Đặt hàng";
+                PbtAdd.className = "btn-2";
+                div1.appendChild(PbtAdd);
+
+
+                container.appendChild(div1);
+
+
+                PbtAdd.onclick = function(arg) {
+                    return function() {
+                        cart.push(product[arg]);
+                        document.getElementById("my_cart").innerHTML = "";
+                        displayCart();
+                    }
+                }(i)
+            }
+
+            if (product.length == 0) {
+                SumAndCount() = 0;
+            } else {
+                SumAndCount();
+            }
+
+        }
+
+        function displayCart() {
+
+            var container_cart = document.getElementById("my_cart");
+            var div = document.createElement("div");
+            div.className = "table-pay";
+
+            var table = document.createElement("table");
+            table.className = "table-1";
+
+            var thead = document.createElement("thead");
+
+            var tr = document.createElement("tr");
+
+            var th1 = document.createElement("th");
+
+
+            var th2 = document.createElement("th");
+
+
+            var th3 = document.createElement("th");
+            th3.innerText = "San pham";
+
+
+            var th4 = document.createElement("th");
+            th4.innerText = "Gia";
+
+
+            var th5 = document.createElement("th");
+            th5.innerText = "So luong";
+
+
+            var th6 = document.createElement("th");
+            th6.innerText = "Tong";
+
+
+            tr.appendChild(th1);
+            tr.appendChild(th2);
+            tr.appendChild(th3);
+            tr.appendChild(th4);
+            tr.appendChild(th5);
+            tr.appendChild(th6);
+
+            thead.appendChild(tr);
+
+            table.appendChild(thead);
+
+
+            for (var j = 0; j < cart.length; j++) {
+
+                var tbody = document.createElement("tbody");
+
+                var tr = document.createElement("tr");
+
+
+                var td1 = document.createElement("td");
+
+
+                var im = document.createElement("img");
+                im.className = "delete";
+                im.src = "https://cdn4.iconfinder.com/data/icons/basic-ui-colour/512/ui-02-512.png";
+
+
+                var td2 = document.createElement("td");
+                td2.src = cart[j].img;
+                td2.className = "img-cart";
+
+
+                var td3 = document.createElement("td");
+                td3.innerText = cart[j].name;
+
+
+                var td4 = document.createElement("td");
+                td4.className = "price-pay";
+                td4.innerText = cart[j].price;
+
+
+                var td5 = document.createElement("td");
+
+                var input = document.createElement("input");
+                input.className = "sl-pay";
+                input.type = "number";
+                input.min = "1";
+                input.max = "100";
+                input.value = "1";
+                input.id = "select1";
+
+
+                var td6 = document.createElement("td");
+                td6.id = "tt";
+
+                var span = document.createElement("span");
+                span.innerText = cart[j].price * input.value;
+
+
+
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                td5.appendChild(input);
+                tr.appendChild(td5);
+                td6.appendChild(span);
+                tr.appendChild(td6);
+                td1.appendChild(im);
+
+                tbody.appendChild(tr);
+
+                table.appendChild(tbody);
+
+
+                im.onclick = function(arg) {
+                    return function() {
+                        cart.splice(arg, 1);
+                        document.getElementById("my_cart").innerHTML = "";
+                        displayCart();
+                    }
+                }(j)
+
+            }
+
+
+            var tbodys = document.createElement("tbody");
+
+            var trs = document.createElement("tr");
+
+            var tds = document.createElement("td");
+            tds.colSpan = "6";
+
+            var div_tds = document.createElement("div");
+            div_tds.className = "code-pay";
+
+
+            var buttons = document.createElement("button")
+            buttons.className = "update-cart";
+            buttons.innerText = "Cap nhat gio hang";
+
+            buttons.onclick = function() {
+                return function() {
+                    for (var i = 0; i < cart.length; i++) {
+
+                        displayCart();
+                    }
+                }
+            }
+
+            div_tds.appendChild(buttons);
+            tds.appendChild(div_tds);
+            trs.appendChild(tds);
+            tbody.appendChild(trs);
+
+            table.appendChild(tbodys);
+
+
+            div.appendChild(table);
+
+            container_cart.appendChild(div);
+
+            if (product.length == 0) {
+                SumAndCount() = 0;
+            } else {
+                SumAndCount();
+            }
+
+        }
+
+
+
+        function Cart() {
+            document.getElementById("page").style.display = 'none';
+            document.getElementById("cart").style.display = 'block';
+            document.getElementById("my_cart").style.display = 'block';
+
+        }
+
+        function back() {
+            document.getElementById("page").style.display = 'block';
+            document.getElementById("cart").style.display = 'none';
+            document.getElementById("my_cart").style.display = 'none';
+        }
+
+
+
+        /*
+                var div2 = document.createElement("div1");
+                div2.className = "cart";
+
+                var Cname = document.createElement("p");
+                Cname.innerText = cart[j].name;
+                Cname.className = "cart1";
+                div2.appendChild(Cname);
+
+                var Cprice = document.createElement("p");
+                Cprice.innerText = cart[j].price;
+                Cprice.className = "cart1";
+                div2.appendChild(Cprice);
+
+                var CbtDelete = document.createElement("button");
+                CbtDelete.innerText = "Delete";
+                CbtDelete.className = "cart1";
+                div2.appendChild(CbtDelete);
+
+                my_cart.appendChild(div2);
+
+                CbtDelete.onclick = function(arg) {
+                    return function() {
+                        cart.splice(arg, 1);
+                        document.getElementById("my_cart").innerHTML = "";
+                        displayCart();
+                    }
+                }(j)
+            }
+            if (product.length == 0) {
+                SumAndCount() = 0;
+            } else {
+                SumAndCount();
+            }
+        }
+
+        /*function sort() {
+            for (var i = 0; i < cart.length - 1; i++) {
+                for (var j = i + 1; j < cart.length; j++) {
+                    if (cart[i].price < cart[j].price) {
+                        var temp = cart[i];
+                        cart[i] = cart[j];
+                        cart[j] = temp;
+                    }
+                }
+            }
+            document.getElementById("my_cart").innerHTML = "";
+            displayCart();
+        }
+
+
+        function Cart() {
+            document.getElementById("page2").style.display = 'block';
+            document.getElementById("total").style.display = 'none';
+            document.getElementById("page1").style.display = 'none';
+        }
+
+        function Escape() {
+            document.getElementById("page2").style.display = 'none';
+            document.getElementById("page1").style.display = 'block';
+        }
+
+        function deleteAll() {
+            cart = [];
+            document.getElementById("my_cart").innerHTML = "";
+            document.getElementById("count").innerHTML = 0;
+            displayCart();
+
+            console.log(cart);
+        }
+
+        function sum() {
+            document.getElementById("total").style.display = 'block';
+        }
+
+        function search() {
+            document.getElementById("page_search").style.display = 'block';
+            var t = document.getElementById("search1").value;
+            var container = document.getElementById("product");
+            container.innerText = '';
+            for (var i = 0; i < product.length; i++) {
+                if (product[i].name === t) {
+
+                    var div1 = document.createElement("div");
+                    div1.className = "grid-item";
+
+                    var Pimg = document.createElement("img");
+                    Pimg.src = product[i].img;
+                    div1.appendChild(Pimg);
+                    Pimg.className = "img-sp";
+
+                    var Pname = document.createElement("p");
+                    Pname.innerText = product[i].name;
+                    div1.appendChild(Pname);
+
+                    var Pprice = document.createElement("p");
+                    Pprice.innerText = product[i].price;
+                    div1.appendChild(Pprice);
+
+                    var PbtDetail = document.createElement("button");
+                    PbtDetail.innerText = "Chi tiết";
+                    PbtDetail.className = "btn-1";
+
+                    div1.appendChild(PbtDetail);
+
+                    var PbtAdd = document.createElement("button");
+                    PbtAdd.innerText = "Đặt hàng";
+                    PbtAdd.className = "btn-2";
+                    div1.appendChild(PbtAdd);
+
+
+                    container.appendChild(div1);
+
+
+                    PbtAdd.onclick = function(arg) {
+                        return function() {
+                            cart.push(product[arg]);
+                            document.getElementById("my_cart").innerHTML = "";
+                            displayCart();
+                        }
+                    }(i)
+                }
+
+                if (product.length == 0) {
+                    SumAndCount() = 0;
+                } else {
+                    SumAndCount();
+                }
+            }*/
+    </script>
+</body>
+
+</html>
